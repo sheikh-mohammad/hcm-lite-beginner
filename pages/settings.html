@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Settings</title><link rel="stylesheet" href="../css/style.css"></head><body>
+<div class="container">
+<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
+<h1>Company Settings</h1>
+<div class="card">
+<label class="label">Company name</label><input class="input" id="cn">
+<label class="label">Office start time</label><input class="input" id="st" type="time">
+<label class="label">Grace minutes</label><input class="input" id="gr" type="number">
+<label class="label">Yearly leave quota</label><input class="input" id="q" type="number">
+<button class="btn" onclick="save()">Save</button>
+</div>
+</div>
+<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+<script>
+requireRole('admin');
+const c=Store.company();document.getElementById('cn').value=c.name;document.getElementById('st').value=c.start;document.getElementById('gr').value=c.grace;document.getElementById('q').value=c.quota;
+function save(){const c=Store.company();c.name=document.getElementById('cn').value;c.start=document.getElementById('st').value;c.grace=Number(document.getElementById('gr').value);c.quota=Number(document.getElementById('q').value);Store.setCompany(c);alert('Saved')}
+</script>
+</body></html>
+`

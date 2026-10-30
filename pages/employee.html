@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Employee</title><link rel="stylesheet" href="../css/style.css"></head><body>
+<div class="container">
+<div class="nav"><a href="employee.html">Dashboard</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
+<h1>Employee Dashboard</h1>
+<div id="anns"></div>
+<div class="card">
+<button class="btn" onclick="ci()">Check in</button>
+<button class="btn secondary" onclick="co()">Check out</button>
+<div id="status"></div>
+</div>
+<div class="card" style="margin-top:16px">
+<h3>Apply leave</h3>
+<label class="label">Type</label><select class="input" id="lt"><option>casual</option><option>sick</option></select>
+<label class="label">From</label><input class="input" id="lf" type="date">
+<label class="label">To</label><input class="input" id="lto" type="date">
+<label class="label">Reason</label><input class="input" id="lr">
+<button class="btn" onclick="applyL()">Apply</button>
+<div class="error" id="lerr"></div>
+</div>
+<div class="card" style="margin-top:16px"><h3>My attendance</h3><table class="table"><thead><tr><th>Date</th><th>In</th><th>Out</th><th>Status</th></tr></thead><tbody id="attb"></tbody></table></div>
+<div class="card" style="margin-top:16px"><h3>My leaves</h3><table class="table"><thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead><tbody id="lvb"></tbody></table></div>
+</div>
+<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+<script>
+const u=requireRole('employee');if(u){mountChat(u);
+document.getElementById('anns').innerHTML=Store.ann().map(x=>`<div class="card">${x}</div>`).join('');
+function ci(){const r=checkIn(u.id);document.getElementById('status').textContent=r.ok?r.status:r.msg;render()}
+function co(){const r=checkOut(u.id);document.getElementById('status').textContent=r.ok?r.status+' '+ (r.hours?r.hours.toFixed(1)+'h':''):r.msg;render()}
+function applyL(){const r=applyLeave(u.id,document.getElementById('lt').value,document.getElementById('lf').value,document.getElementById('lto').value,document.getElementById('lr').value);if(!r.ok)document.getElementById('lerr').textContent=r.msg;else document.getElementById('lerr').textContent='';render()}
+function render(){
+document.getElementById('attb').innerHTML=myAttendance(u.id).map(a=>`<tr><td>${a.date}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.status}</td></tr>`).join('');
+document.getElementById('lvb').innerHTML=Store.leaves().filter(l=>l.empId===u.id).map(l=>`<tr><td>${l.type}</td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td>${l.status}</td></tr>`).join('');
+}
+render();
+}
+</script>
+</body></html>
+`

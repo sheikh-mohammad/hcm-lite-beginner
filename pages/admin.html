@@ -1,0 +1,26 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><link rel="stylesheet" href="../css/style.css"></head><body>
+<div class="container">
+<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
+<h1>Admin Dashboard</h1>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+<div class="card stat"><span>Employees</span><span class="num" id="empCount"></span></div>
+<div class="card stat"><span>Present today</span><span class="num" id="pres"></span></div>
+<div class="card stat"><span>Late today</span><span class="num" id="late"></span></div>
+<div class="card stat"><span>Pending leaves</span><span class="num" id="pend"></span></div>
+</div>
+<div class="card" style="margin-top:16px"><h3>Announcements</h3><input class="input" id="ann" placeholder="Post announcement"><button class="btn" onclick="postAnn()">Post</button><div id="annList"></div></div>
+</div>
+<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+<script>
+const u=requireRole('admin');if(u){mountChat(u);
+document.getElementById('empCount').textContent=employees().length;
+const att=Store.att().filter(a=>a.date===todayStr());
+document.getElementById('pres').textContent=att.filter(a=>a.status==='present').length;
+document.getElementById('late').textContent=att.filter(a=>a.status==='late').length;
+document.getElementById('pend').textContent=Store.leaves().filter(l=>l.status==='pending').length;
+function postAnn(){const t=document.getElementById('ann').value;if(!t)return;const a=Store.ann();a.unshift(t);Store.setAnn(a);renderAnn()}
+function renderAnn(){document.getElementById('annList').innerHTML=Store.ann().map(x=>`<p>• ${x}</p>`).join('')}renderAnn();
+}
+</script>
+</body></html>
+`

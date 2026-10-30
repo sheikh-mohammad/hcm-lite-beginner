@@ -1,0 +1,16 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leaves</title><link rel="stylesheet" href="../css/style.css"></head><body>
+<div class="container">
+<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
+<h1>Leave Requests</h1>
+<table class="table"><thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Comment</th><th></th></tr></thead><tbody id="tbody"></tbody></table>
+</div>
+<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+<script>
+requireRole('admin');
+function render(){const users=Store.users();document.getElementById('tbody').innerHTML=Store.leaves().map(l=>{const e=users.find(u=>u.id===l.empId);return `<tr><td>${e?e.name:''}</td><td>${l.type}</td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td>${l.status}</td><td>${l.comment||''}</td><td>${l.status==='pending'?`<button class="btn" onclick="approve(${l.id})">Approve</button> <button class="btn danger" onclick="reject(${l.id})">Reject</button>`:''}</td></tr>`}).join('')}
+function approve(id){approveLeave(id,prompt('Comment?')||'');render()}
+function reject(id){rejectLeave(id,prompt('Comment?')||'');render()}
+render();
+</script>
+</body></html>
+`

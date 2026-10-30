@@ -1,0 +1,29 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Payslip</title><link rel="stylesheet" href="../css/style.css"></head><body>
+<div class="container">
+<div class="nav"><a href="../index.html">Home</a><a href="#" onclick="window.print()">Print/Save PDF</a><a href="#" onclick="logout()">Logout</a></div>
+<h1>Payslip</h1>
+<div class="card" id="slip"></div>
+</div>
+<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+<script>
+const u=currentUser();if(!u)location.href='../index.html';
+const empId=u.role==='admin'?Number(new URLSearchParams(location.search).get('emp'))||employees()[0]?.id:u.id;
+const e=Store.users().find(x=>x.id===empId);
+const now=new Date();const y=now.getFullYear();const m=now.getMonth();
+const wd=workingDaysInMonth(y,m);
+const att=Store.att().filter(a=>a.empId===empId&&a.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));
+const absent=att.filter(a=>a.status==='absent').length;const half=att.filter(a=>a.status==='half').length;
+const perDay=e.salary/wd;const ded=perDay*(absent+0.5*half);const net=e.salary-ded;
+document.getElementById('slip').innerHTML=`
+<h2>${Store.company().name}</h2>
+<p>Employee: ${e.name} (${e.department})</p>
+<p>Month: ${now.toLocaleString('default',{month:'long'})} ${y}</p>
+<p>Monthly salary: ${e.salary}</p>
+<p>Working days: ${wd}</p>
+<p>Per day: ${perDay.toFixed(2)}</p>
+<p>Absent: ${absent}, Half: ${half}</p>
+<p>Deduction: ${ded.toFixed(2)}</p>
+<h3>Net: ${net.toFixed(2)}</h3>`;
+</script>
+</body></html>
+`
