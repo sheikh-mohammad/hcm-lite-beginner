@@ -1,27 +1,12 @@
 <!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HCM Lite</title><link rel="stylesheet" href="css/style.css"></head><body>
 <div class="container">
-<h1>HCM Lite</h1>
-<div class="card" id="setup" style="display:none">
-<h2>First-run setup</h2>
-<label class="label">Company name</label><input class="input" id="cname">
-<label class="label">Admin name</label><input class="input" id="aname">
-<label class="label">Admin email</label><input class="input" id="aemail">
-<label class="label">Admin password</label><input class="input" id="apw" type="password">
-<button class="btn" onclick="doSetup()">Create company</button>
-</div>
-<div class="card" id="login">
-<h2>Login</h2>
-<label class="label">Email</label><input class="input" id="lemail">
-<label class="label">Password</label><input class="input" id="lpw" type="password">
-<button class="btn" onclick="doLogin()">Login</button>
-<div class="error" id="lerr"></div>
+<div class="hero"><h1>HCM Lite</h1><p style="color:var(--muted);font-size:18px">A small HR web app with HTML, CSS & JavaScript</p>
+<a class="btn" href="login.html" style="margin-top:20px;display:inline-block">Get Started</a></div>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:40px">
+<div class="card"><h3>Admin</h3><p style="color:var(--muted)">Run the company, manage employees, approve leaves, view payslips.</p></div>
+<div class="card"><h3>Employee</h3><p style="color:var(--muted)">Check in/out, apply leave, view attendance and payslip.</p></div>
+<div class="card"><h3>Smart Helper</h3><p style="color:var(--muted)">Ask questions and get answers from real app data.</p></div>
 </div>
 </div>
-<script src="js/storage.js"></script><script src="js/auth.js"></script><script src="js/employees.js"></script><script src="js/attendance.js"></script><script src="js/leave.js"></script><script src="js/helper.js"></script>
-<script>
-if(!Store.company())document.getElementById('setup').style.display='block';
-function doSetup(){setupCompany(document.getElementById('cname').value,document.getElementById('aname').value,document.getElementById('aemail').value,document.getElementById('apw').value);location.reload()}
-function doLogin(){if(login(document.getElementById('lemail').value,document.getElementById('lpw').value)){const u=currentUser();location.href=u.role==='admin'?'pages/admin.html':'pages/employee.html'}else document.getElementById('lerr').textContent='Invalid credentials'}
-</script>
 </body></html>
 `
