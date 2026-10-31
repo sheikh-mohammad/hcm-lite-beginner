@@ -1,26 +1,89 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Admin Dashboard</h1>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-<div class="card stat"><span>Employees</span><span class="num" id="empCount"></span></div>
-<div class="card stat"><span>Present today</span><span class="num" id="pres"></span></div>
-<div class="card stat"><span>Late today</span><span class="num" id="late"></span></div>
-<div class="card stat"><span>Pending leaves</span><span class="num" id="pend"></span></div>
-</div>
-<div class="card" style="margin-top:16px"><h3>Announcements</h3><input class="input" id="ann" placeholder="Post announcement"><button class="btn" onclick="postAnn()">Post</button><div id="annList"></div></div>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-const u=requireRole('admin');if(u){mountChat(u);
-document.getElementById('empCount').textContent=employees().length;
-const att=Store.att().filter(a=>a.date===todayStr());
-document.getElementById('pres').textContent=att.filter(a=>a.status==='present').length;
-document.getElementById('late').textContent=att.filter(a=>a.status==='late').length;
-document.getElementById('pend').textContent=Store.leaves().filter(l=>l.status==='pending').length;
-function postAnn(){const t=document.getElementById('ann').value;if(!t)return;const a=Store.ann();a.unshift(t);Store.setAnn(a);renderAnn()}
-function renderAnn(){document.getElementById('annList').innerHTML=Store.ann().map(x=>`<p>• ${x}</p>`).join('')}renderAnn();
-}
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px" id="companyName"></p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="logout()">Sign out</button>
+    </header>
+    <nav class="nav">
+      <a class="active" href="admin.html">Dashboard</a>
+      <a href="employees.html">Employees</a>
+      <a href="leaves.html">Leaves</a>
+      <a href="payslip.html">Payslips</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Overview</span>
+      <h1 style="margin:0">Admin dashboard</h1>
+      <p style="color:var(--text-secondary);max-width:640px">A live snapshot of your workforce — attendance, time-off and momentum at a glance.</p>
+    </section>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+      <article class="card stat">
+        <span>Employees</span>
+        <span class="num" id="empCount">0</span>
+        <p style="color:var(--muted)">Active in roster</p>
+      </article>
+      <article class="card stat">
+        <span>Present today</span>
+        <span class="num" id="pres">0</span>
+        <p style="color:var(--muted)">Checked in on time or in</p>
+      </article>
+      <article class="card stat">
+        <span>Late today</span>
+        <span class="num" id="late">0</span>
+        <p style="color:var(--muted)">Marked late</p>
+      </article>
+      <article class="card stat">
+        <span>Pending leaves</span>
+        <span class="num" id="pend">0</span>
+        <p style="color:var(--muted)">Awaiting approval</p>
+      </article>
+    </div>
+    <div class="card" style="margin-top:clamp(18px,4vw,28px)">
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px">
+        <div>
+          <h3 style="margin-bottom:6px">Announcements</h3>
+          <p style="color:var(--muted)">Share updates with the whole team</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;width:min(520px,100%)">
+          <input class="input" id="ann" placeholder="Write a clear update..." style="margin-top:0;flex:1;min-width:220px">
+          <button class="btn" onclick="postAnn()">Post announcement</button>
+        </div>
+      </div>
+      <div id="annList" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    const u=requireRole('admin');if(u){
+      mountChat(u);
+      const comp=Store.company();
+      if(comp&&document.getElementById('companyName')) document.getElementById('companyName').textContent=comp.name;
+      document.getElementById('empCount').textContent=employees().length;
+      const att=Store.att().filter(a=>a.date===todayStr());
+      document.getElementById('pres').textContent=att.filter(a=>a.status==='present').length;
+      document.getElementById('late').textContent=att.filter(a=>a.status==='late').length;
+      document.getElementById('pend').textContent=Store.leaves().filter(l=>l.status==='pending').length;
+      function postAnn(){const t=document.getElementById('ann').value.trim();if(!t)return;const a=Store.ann();a.unshift(t);Store.setAnn(a);document.getElementById('ann').value='';renderAnn()}
+      function renderAnn(){const list=Store.ann();const el=document.getElementById('annList');if(!list.length){el.innerHTML='<p style="color:var(--muted)">No announcements yet.</p>';return}el.innerHTML=list.map(x=>`<div style="display:flex;gap:12px;align-items:flex-start;padding:14px 18px;border-radius:var(--radius-md);border:1px solid var(--border);background:linear-gradient(180deg,rgba(124,59,255,.04),transparent)"><div style="width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px"></div><p style="color:var(--text-secondary)">${x}</p></div>`).join('')}renderAnn();
+    }
+  </script>
+</body>
+</html>
 `

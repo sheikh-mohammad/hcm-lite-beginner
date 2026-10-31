@@ -1,12 +1,156 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HCM Lite</title><link rel="stylesheet" href="css/style.css"></head><body>
-<div class="container">
-<div class="hero"><h1>HCM Lite</h1><p style="color:var(--muted);font-size:18px">A small HR web app with HTML, CSS & JavaScript</p>
-<a class="btn" href="login.html" style="margin-top:20px;display:inline-block">Get Started</a></div>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:40px">
-<div class="card"><h3>Admin</h3><p style="color:var(--muted)">Run the company, manage employees, approve leaves, view payslips.</p></div>
-<div class="card"><h3>Employee</h3><p style="color:var(--muted)">Check in/out, apply leave, view attendance and payslip.</p></div>
-<div class="card"><h3>Smart Helper</h3><p style="color:var(--muted)">Ask questions and get answers from real app data.</p></div>
-</div>
-</div>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>HCM Lite — Human Capital, Reimagined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0 30px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+      </div>
+      <div class="row" style="gap:10px">
+        <a class="btn secondary" href="login.html">Sign in</a>
+        <a class="btn" href="login.html">Get started</a>
+      </div>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">People operations · Delightfully clear</span>
+      <h1>Run HR with intent</h1>
+      <p>A vibrant workspace for attendance, leave, payslips and the people who keep the company moving. Playful where helpful. Precise everywhere else.</p>
+      <div class="row" style="justify-content:center;margin-top:10px">
+        <a class="btn" href="login.html">Launch workspace</a>
+        <a class="btn secondary" href="#capabilities">See capabilities</a>
+      </div>
+    </section>
+
+    <section id="capabilities" style="margin-top:clamp(40px,10vw,90px)">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+        <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Capabilities</span>
+        <h2 style="margin:0">Everything in one bright space</h2>
+        <p style="color:var(--text-secondary);max-width:680px">Purpose-built flows for admins and employees. Colorful, intuitive, and refreshingly simple.</p>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+        <article class="card">
+          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">Admin</span>
+          <h3 style="margin-top:16px">Command center</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Roster oversight, leave approvals, live attendance and company-wide announcements from a single view.</p>
+          <ul style="margin-top:18px;display:flex;flex-direction:column;gap:10px;list-style:none;color:var(--text-secondary)">
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent)">•</span> Employee management</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent)">•</span> Attendance oversight</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent)">•</span> Leave workflows</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent)">•</span> Payslip generation</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">Employee</span>
+          <h3 style="margin-top:16px">Personal workspace</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Own attendance, raise time-off, review history and access payslips with zero friction.</p>
+          <ul style="margin-top:18px;display:flex;flex-direction:column;gap:10px;list-style:none;color:var(--text-secondary)">
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Quick check-in/out</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Leave requests</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Attendance history</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Payslip access</li>
+          </ul>
+        </article>
+        <article class="card">
+          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">Intelligence</span>
+          <h3 style="margin-top:16px">Smart Helper</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Context-aware assistant that answers from real app data. Ask about leave balance, attendance or team status.</p>
+          <ul style="margin-top:18px;display:flex;flex-direction:column;gap:10px;list-style:none;color:var(--text-secondary)">
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Natural questions</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Real-time data</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Role-aware answers</li>
+            <li style="display:flex;gap:10px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Built-in guidance</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section style="margin-top:clamp(60px,12vw,110px)">
+      <div class="card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,6vw,40px);align-items:center">
+        <div>
+          <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Designed for focus</span>
+          <h2 style="margin-top:16px">Clarity with a spark</h2>
+          <p style="color:var(--text-secondary);margin-top:12px">Every action is a step forward. Soft gradients, generous spacing and considered typography create an energizing yet calm environment for people work.</p>
+          <div class="row" style="margin-top:24px">
+            <a class="btn" href="login.html">Start now</a>
+            <a class="btn secondary" href="login.html">Create company</a>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+          <div class="card" style="padding:20px">
+            <span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Attendance</span>
+            <p style="font-family:'Fraunces',serif;font-size:clamp(28px,6vw,42px);margin-top:10px">On-time tracking</p>
+            <p style="color:var(--muted);margin-top:6px">Clear status at a glance</p>
+          </div>
+          <div class="card" style="padding:20px">
+            <span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Leaves</span>
+            <p style="font-family:'Fraunces',serif;font-size:clamp(28px,6vw,42px);margin-top:10px">Streamlined flow</p>
+            <p style="color:var(--muted);margin-top:6px">Approve with confidence</p>
+          </div>
+          <div class="card" style="padding:20px;grid-column:1/-1">
+            <span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Payslips</span>
+            <p style="font-family:'Fraunces',serif;font-size:clamp(28px,6vw,42px);margin-top:10px">Ready when needed</p>
+            <p style="color:var(--muted);margin-top:6px">Organized and accessible</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top:clamp(60px,12vw,110px)">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px);text-align:center;align-items:center">
+        <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Built for teams</span>
+        <h2 style="margin:0">Modern HR with personality</h2>
+        <p style="color:var(--text-secondary);max-width:620px">Fast to set up, easy to use. Get started in minutes with no complex configuration.</p>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <article class="card" style="text-align:center">
+          <div style="width:12px;height:12px;border-radius:50%;background:var(--accent);margin:0 auto 16px;box-shadow:0 0 0 12px rgba(124,59,255,.08)"></div>
+          <h3>Set up in minutes</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Create your company and admin account on first login. Add employees and go.</p>
+        </article>
+        <article class="card" style="text-align:center">
+          <div style="width:12px;height:12px;border-radius:50%;background:var(--accent-2);margin:0 auto 16px;box-shadow:0 0 0 12px rgba(34,211,238,.08)"></div>
+          <h3>Role-based access</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Clear separation between admin and employee views with secure sessions.</p>
+        </article>
+        <article class="card" style="text-align:center">
+          <div style="width:12px;height:12px;border-radius:50%;background:var(--accent-3);margin:0 auto 16px;box-shadow:0 0 0 12px rgba(245,158,11,.1)"></div>
+          <h3>All data in one place</h3>
+          <p style="color:var(--text-secondary);margin-top:10px">Attendance, leaves and payslips stay organized and easy to find.</p>
+        </article>
+      </div>
+    </section>
+
+    <section style="margin-top:clamp(60px,12vw,110px)">
+      <div class="card" style="text-align:center;padding:clamp(40px,10vw,80px);display:flex;flex-direction:column;align-items:center;gap:16px">
+        <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Ready to begin</span>
+        <h2 style="margin:0">Bring color to your people operations</h2>
+        <p style="color:var(--text-secondary);max-width:560px">A refined HR experience that respects your team's time and energy.</p>
+        <div class="row" style="justify-content:center;margin-top:10px">
+          <a class="btn" href="login.html">Launch HCM Lite</a>
+          <a class="btn secondary" href="login.html">Sign in</a>
+        </div>
+      </div>
+    </section>
+
+    <footer style="margin-top:clamp(60px,12vw,120px);padding:30px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-top:1px solid var(--border)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>
+        <span style="color:var(--muted)">© 2026 HCM Lite</span>
+      </div>
+      <span style="color:var(--muted)">Crafted for clarity · Built with HTML, CSS & JavaScript</span>
+    </footer>
+  </div>
+</body>
+</html>
 `
