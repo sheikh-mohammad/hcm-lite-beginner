@@ -1,38 +1,122 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Employee</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="employee.html">Dashboard</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Employee Dashboard</h1>
-<div id="anns"></div>
-<div class="card">
-<button class="btn" onclick="ci()">Check in</button>
-<button class="btn secondary" onclick="co()">Check out</button>
-<div id="status"></div>
-</div>
-<div class="card" style="margin-top:16px">
-<h3>Apply leave</h3>
-<label class="label">Type</label><select class="input" id="lt"><option>casual</option><option>sick</option></select>
-<label class="label">From</label><input class="input" id="lf" type="date">
-<label class="label">To</label><input class="input" id="lto" type="date">
-<label class="label">Reason</label><input class="input" id="lr">
-<button class="btn" onclick="applyL()">Apply</button>
-<div class="error" id="lerr"></div>
-</div>
-<div class="card" style="margin-top:16px"><h3>My attendance</h3><table class="table"><thead><tr><th>Date</th><th>In</th><th>Out</th><th>Status</th></tr></thead><tbody id="attb"></tbody></table></div>
-<div class="card" style="margin-top:16px"><h3>My leaves</h3><table class="table"><thead><tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr></thead><tbody id="lvb"></tbody></table></div>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-const u=requireRole('employee');if(u){mountChat(u);
-document.getElementById('anns').innerHTML=Store.ann().map(x=>`<div class="card">${x}</div>`).join('');
-function ci(){const r=checkIn(u.id);document.getElementById('status').textContent=r.ok?r.status:r.msg;render()}
-function co(){const r=checkOut(u.id);document.getElementById('status').textContent=r.ok?r.status+' '+ (r.hours?r.hours.toFixed(1)+'h':''):r.msg;render()}
-function applyL(){const r=applyLeave(u.id,document.getElementById('lt').value,document.getElementById('lf').value,document.getElementById('lto').value,document.getElementById('lr').value);if(!r.ok)document.getElementById('lerr').textContent=r.msg;else document.getElementById('lerr').textContent='';render()}
-function render(){
-document.getElementById('attb').innerHTML=myAttendance(u.id).map(a=>`<tr><td>${a.date}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td>${a.status}</td></tr>`).join('');
-document.getElementById('lvb').innerHTML=Store.leaves().filter(l=>l.empId===u.id).map(l=>`<tr><td>${l.type}</td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td>${l.status}</td></tr>`).join('');
-}
-render();
-}
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My space · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px">Employee workspace</p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="logout()">Sign out</button>
+    </header>
+    <nav class="nav">
+      <a class="active" href="employee.html">My space</a>
+      <a href="payslip.html">Payslip</a>
+    </nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Today</span>
+      <h1 style="margin:0">Hello, <span id="uname">there</span></h1>
+      <p style="color:var(--text-secondary);max-width:640px">Track your presence, raise leave and stay up to date.</p>
+    </section>
+    <div id="anns"></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:18px">
+      <article class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <h3 style="margin-bottom:6px">Attendance</h3>
+            <p style="color:var(--muted)">Mark your day</p>
+          </div>
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>
+        </div>
+        <div class="row">
+          <button class="btn" onclick="ci()">Check in</button>
+          <button class="btn secondary" onclick="co()">Check out</button>
+        </div>
+        <p style="color:var(--muted);margin-top:14px">Status: <span id="status" style="color:var(--text)">—</span></p>
+      </article>
+      <article class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <h3 style="margin-bottom:6px">Apply leave</h3>
+            <p style="color:var(--muted)">Plan time away</p>
+          </div>
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--accent-2)"></div>
+        </div>
+        <label class="label">Type</label>
+        <select class="input" id="lt"><option>casual</option><option>sick</option></select>
+        <label class="label">From</label>
+        <input class="input" id="lf" type="date">
+        <label class="label">To</label>
+        <input class="input" id="lto" type="date">
+        <label class="label">Reason</label>
+        <input class="input" id="lr">
+        <button class="btn" style="margin-top:18px" onclick="applyL()">Submit request</button>
+        <div class="error" id="lerr"></div>
+      </article>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:18px">
+      <article class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <h3 style="margin-bottom:6px">My attendance</h3>
+            <p style="color:var(--muted)">History</p>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr><th>Date</th><th>In</th><th>Out</th><th>Status</th></tr>
+            </thead>
+            <tbody id="attb"></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div>
+            <h3 style="margin-bottom:6px">My leaves</h3>
+            <p style="color:var(--muted)">Requests</p>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th></tr>
+            </thead>
+            <tbody id="lvb"></tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    const u=requireRole('employee');if(u){
+      mountChat(u);
+      document.getElementById('uname').textContent=u.name.split(' ')[0];
+      document.getElementById('anns').innerHTML=Store.ann().map(x=>`<div class="card" style="margin-bottom:12px"><div style="display:flex;gap:12px;align-items:flex-start"><div style="width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px"></div><p style="color:var(--text-secondary)">${x}</p></div></div>`).join('');
+      window.ci=()=>{const r=checkIn(u.id);document.getElementById('status').textContent=r.ok?r.status:r.msg;render()}
+      window.co=()=>{const r=checkOut(u.id);document.getElementById('status').textContent=r.ok?r.status+(r.hours?' '+r.hours.toFixed(1)+'h':''):r.msg;render()}
+      window.applyL=()=>{const r=applyLeave(u.id,document.getElementById('lt').value,document.getElementById('lf').value,document.getElementById('lto').value,document.getElementById('lr').value);document.getElementById('lerr').textContent=r.ok?'Request submitted':r.msg;render()}
+      function render(){
+        document.getElementById('attb').innerHTML=(myAttendance?myAttendance(u.id):[]).map(a=>`<tr><td>${a.date}</td><td>${a.checkIn||'-'}</td><td>${a.checkOut||'-'}</td><td><span class="badge">${a.status}</span></td></tr>`).join('')||'<tr><td colspan="4" style="color:var(--muted)">No records</td></tr>';
+        document.getElementById('lvb').innerHTML=Store.leaves().filter(l=>l.empId===u.id).map(l=>`<tr><td><span class="badge">${l.type}</span></td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td><span class="badge ${l.status}">${l.status}</span></td></tr>`).join('')||'<tr><td colspan="5" style="color:var(--muted)">No requests</td></tr>';
+      }
+      render();
+    }
+  </script>
+</body>
+</html>
 `

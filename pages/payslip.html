@@ -1,29 +1,75 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Payslip</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="../index.html">Home</a><a href="#" onclick="window.print()">Print/Save PDF</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Payslip</h1>
-<div class="card" id="slip"></div>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-const u=currentUser();if(!u)location.href='../index.html';
-const empId=u.role==='admin'?Number(new URLSearchParams(location.search).get('emp'))||employees()[0]?.id:u.id;
-const e=Store.users().find(x=>x.id===empId);
-const now=new Date();const y=now.getFullYear();const m=now.getMonth();
-const wd=workingDaysInMonth(y,m);
-const att=Store.att().filter(a=>a.empId===empId&&a.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));
-const absent=att.filter(a=>a.status==='absent').length;const half=att.filter(a=>a.status==='half').length;
-const perDay=e.salary/wd;const ded=perDay*(absent+0.5*half);const net=e.salary-ded;
-document.getElementById('slip').innerHTML=`
-<h2>${Store.company().name}</h2>
-<p>Employee: ${e.name} (${e.department})</p>
-<p>Month: ${now.toLocaleString('default',{month:'long'})} ${y}</p>
-<p>Monthly salary: ${e.salary}</p>
-<p>Working days: ${wd}</p>
-<p>Per day: ${perDay.toFixed(2)}</p>
-<p>Absent: ${absent}, Half: ${half}</p>
-<p>Deduction: ${ded.toFixed(2)}</p>
-<h3>Net: ${net.toFixed(2)}</h3>`;
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Payslip · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px">Payslip</p>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn secondary" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn secondary" onclick="logout()">Sign out</button>
+      </div>
+    </header>
+    <nav class="nav" id="nav"></nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Compensation</span>
+      <h1 style="margin:0">Payslip</h1>
+      <p style="color:var(--text-secondary);max-width:640px">Your monthly compensation breakdown.</p>
+    </section>
+    <div class="card" id="slip"></div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    const u=currentUser();if(!u)location.href='../login.html';
+    const nav=document.getElementById('nav');
+    nav.innerHTML=u.role==='admin'?`<a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a class="active" href="payslip.html">Payslips</a><a href="settings.html">Settings</a>`:`<a href="employee.html">My space</a><a class="active" href="payslip.html">Payslip</a>`;
+    mountChat(u);
+    const empId=u.role==='admin'?Number(new URLSearchParams(location.search).get('emp'))||employees()[0]?.id:u.id;
+    const e=Store.users().find(x=>x.id===empId)||employees().find(x=>x.id===empId)||{};
+    const now=new Date();const y=now.getFullYear();const m=now.getMonth();
+    const wd=typeof workingDaysInMonth==='function'?workingDaysInMonth(y,m):22;
+    const att=(Store.att?Store.att():[]).filter(a=>a.empId===empId&&a.date&&a.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`));
+    const absent=att.filter(a=>a.status==='absent').length;const half=att.filter(a=>a.status==='half').length;
+    const salary=Number(e.salary)||0;
+    const perDay=wd?salary/wd:0;const ded=perDay*(absent+0.5*half);const net=salary-ded;
+    document.getElementById('slip').innerHTML=`
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:24px">
+        <div>
+          <h2 style="margin-bottom:6px">${(Store.company&&Store.company())?Store.company().name:'Company'}</h2>
+          <p style="color:var(--muted)">Payslip for ${now.toLocaleString('default',{month:'long'})} ${y}</p>
+        </div>
+        <div style="text-align:right">
+          <p style="color:var(--muted)">Employee</p>
+          <p style="font-weight:600">${e.name||'-'}</p>
+          <p style="color:var(--muted)">${e.department||'-'}</p>
+        </div>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+        <div class="card" style="padding:18px"><span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Monthly salary</span><p style="font-family:'Fraunces',serif;font-size:clamp(26px,6vw,38px);margin-top:10px">${salary.toLocaleString()}</p></div>
+        <div class="card" style="padding:18px"><span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Working days</span><p style="font-family:'Fraunces',serif;font-size:clamp(26px,6vw,38px);margin-top:10px">${wd}</p></div>
+        <div class="card" style="padding:18px"><span style="color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:12px">Per day</span><p style="font-family:'Fraunces',serif;font-size:clamp(26px,6vw,38px);margin-top:10px">${perDay.toFixed(2)}</p></div>
+      </div>
+      <div class="card" style="margin-top:18px;padding:20px">
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Absent</span><span>${absent}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Half days</span><span>${half}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)"><span style="color:var(--muted)">Deduction</span><span>${ded.toFixed(2)}</span></div>
+        <div style="display:flex;justify-content:space-between;padding:16px 0;font-weight:600"><span>Net payable</span><span style="font-family:'Fraunces',serif;font-size:clamp(24px,5vw,34px)">${net.toFixed(2)}</span></div>
+      </div>`;
+  </script>
+</body>
+</html>
 `

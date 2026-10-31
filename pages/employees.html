@@ -1,28 +1,93 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Employees</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Employees</h1>
-<div class="card">
-<label class="label">Name</label><input class="input" id="en">
-<label class="label">Email</label><input class="input" id="ee">
-<label class="label">Password</label><input class="input" id="ep">
-<label class="label">Department</label><input class="input" id="ed">
-<label class="label">Salary</label><input class="input" id="es" type="number">
-<button class="btn" onclick="add()">Add employee</button>
-<div class="error" id="eerr"></div>
-</div>
-<div class="card" style="margin-top:16px">
-<input class="input" id="search" placeholder="Search" oninput="render()">
-<table class="table"><thead><tr><th>Name</th><th>Email</th><th>Dept</th><th>Salary</th><th></th></tr></thead><tbody id="tbody"></tbody></table>
-</div>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-requireRole('admin');
-function add(){const r=addEmployee({name:document.getElementById('en').value,email:document.getElementById('ee').value,password:document.getElementById('ep').value,department:document.getElementById('ed').value,salary:document.getElementById('es').value});if(!r.ok){document.getElementById('eerr').textContent=r.msg;return}render()}
-function render(){const q=document.getElementById('search').value.toLowerCase();const rows=employees().filter(e=>e.name.toLowerCase().includes(q)||e.department.toLowerCase().includes(q));document.getElementById('tbody').innerHTML=rows.map(e=>`<tr><td>${e.name}</td><td>${e.email}</td><td>${e.department}</td><td>${e.salary}</td><td><button class="btn danger" onclick="del(${e.id})">Delete</button></td></tr>`).join('')}
-function del(id){deleteEmployee(id);render()}
-render();
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Employees · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px">Team</p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="logout()">Sign out</button>
+    </header>
+    <nav class="nav">
+      <a href="admin.html">Dashboard</a>
+      <a class="active" href="employees.html">Employees</a>
+      <a href="leaves.html">Leaves</a>
+      <a href="payslip.html">Payslips</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Workforce</span>
+      <h1 style="margin:0">Employees</h1>
+      <p style="color:var(--text-secondary);max-width:640px">Add, search and manage your team roster.</p>
+    </section>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+      <article class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div>
+            <h3 style="margin-bottom:6px">Add employee</h3>
+            <p style="color:var(--muted)">Create a new team member</p>
+          </div>
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>
+        </div>
+        <label class="label">Full name</label>
+        <input class="input" id="en">
+        <label class="label">Email</label>
+        <input class="input" id="ee">
+        <label class="label">Password</label>
+        <input class="input" id="ep" type="password">
+        <label class="label">Department</label>
+        <input class="input" id="ed">
+        <label class="label">Salary</label>
+        <input class="input" id="es" type="number">
+        <button class="btn" style="margin-top:18px" onclick="add()">Add employee</button>
+        <div class="error" id="eerr"></div>
+      </article>
+      <article class="card" style="grid-column:1/-1">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px">
+          <div>
+            <h3 style="margin-bottom:6px">Roster</h3>
+            <p style="color:var(--muted)">Search and manage team members</p>
+          </div>
+          <input class="input" id="search" placeholder="Search by name or department" oninput="render()" style="margin-top:0;max-width:320px">
+        </div>
+        <div style="overflow-x:auto">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Salary</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    requireRole('admin');mountChat(currentUser());
+    function add(){const r=addEmployee({name:document.getElementById('en').value,email:document.getElementById('ee').value,password:document.getElementById('ep').value,department:document.getElementById('ed').value,salary:document.getElementById('es').value});if(!r.ok){document.getElementById('eerr').textContent=r.msg;return}document.getElementById('eerr').textContent='';document.getElementById('en').value='';document.getElementById('ee').value='';document.getElementById('ep').value='';document.getElementById('ed').value='';document.getElementById('es').value='';render()}
+    function render(){const q=document.getElementById('search').value.toLowerCase();const rows=employees().filter(e=>(e.name||'').toLowerCase().includes(q)||(e.department||'').toLowerCase().includes(q));document.getElementById('tbody').innerHTML=rows.map(e=>`<tr><td>${e.name}</td><td>${e.email}</td><td><span class="badge">${e.department||'—'}</span></td><td>${e.salary||'—'}</td><td><button class="btn danger" onclick="del(${e.id})">Delete</button></td></tr>`).join('')}
+    window.del=(id)=>{deleteEmployee(id);render()}
+    render();
+  </script>
+</body>
+</html>
 `

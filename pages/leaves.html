@@ -1,16 +1,71 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Leaves</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Leave Requests</h1>
-<table class="table"><thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Days</th><th>Status</th><th>Comment</th><th></th></tr></thead><tbody id="tbody"></tbody></table>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-requireRole('admin');
-function render(){const users=Store.users();document.getElementById('tbody').innerHTML=Store.leaves().map(l=>{const e=users.find(u=>u.id===l.empId);return `<tr><td>${e?e.name:''}</td><td>${l.type}</td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td>${l.status}</td><td>${l.comment||''}</td><td>${l.status==='pending'?`<button class="btn" onclick="approve(${l.id})">Approve</button> <button class="btn danger" onclick="reject(${l.id})">Reject</button>`:''}</td></tr>`}).join('')}
-function approve(id){approveLeave(id,prompt('Comment?')||'');render()}
-function reject(id){rejectLeave(id,prompt('Comment?')||'');render()}
-render();
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Leaves · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px">Time-off</p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="logout()">Sign out</button>
+    </header>
+    <nav class="nav">
+      <a href="admin.html">Dashboard</a>
+      <a href="employees.html">Employees</a>
+      <a class="active" href="leaves.html">Leaves</a>
+      <a href="payslip.html">Payslips</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Requests</span>
+      <h1 style="margin:0">Leave management</h1>
+      <p style="color:var(--text-secondary);max-width:640px">Review and act on time-off requests.</p>
+    </section>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+        <div>
+          <h3 style="margin-bottom:6px">All requests</h3>
+          <p style="color:var(--muted)">Pending and processed</p>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Type</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Days</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tb"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    requireRole('admin');mountChat(currentUser());
+    function render(){document.getElementById('tb').innerHTML=Store.leaves().map(l=>{const e=employees().find(x=>x.id===l.empId)||{};return `<tr><td>${e.name||'-'}</td><td><span class="badge">${l.type}</span></td><td>${l.from}</td><td>${l.to}</td><td>${l.days}</td><td><span class="badge ${l.status}">${l.status}</span></td><td>${l.status==='pending'?`<div class="row"><button class="btn" onclick="ap(${l.id})">Approve</button><button class="btn danger" onclick="rej(${l.id})">Reject</button></div>`:'—'}</td></tr>`}).join('')}
+    window.ap=id=>{approveLeave(id);render()}
+    window.rej=id=>{rejectLeave(id);render()}
+    render();
+  </script>
+</body>
+</html>
 `

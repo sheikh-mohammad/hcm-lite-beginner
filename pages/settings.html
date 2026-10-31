@@ -1,20 +1,73 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Settings</title><link rel="stylesheet" href="../css/style.css"></head><body>
-<div class="container">
-<div class="nav"><a href="admin.html">Dashboard</a><a href="employees.html">Employees</a><a href="leaves.html">Leaves</a><a href="settings.html">Settings</a><a href="payslip.html">Payslip</a><a href="#" onclick="logout()">Logout</a></div>
-<h1>Company Settings</h1>
-<div class="card">
-<label class="label">Company name</label><input class="input" id="cn">
-<label class="label">Office start time</label><input class="input" id="st" type="time">
-<label class="label">Grace minutes</label><input class="input" id="gr" type="number">
-<label class="label">Yearly leave quota</label><input class="input" id="q" type="number">
-<button class="btn" onclick="save()">Save</button>
-</div>
-</div>
-<script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
-<script>
-requireRole('admin');
-const c=Store.company();document.getElementById('cn').value=c.name;document.getElementById('st').value=c.start;document.getElementById('gr').value=c.grace;document.getElementById('q').value=c.quota;
-function save(){const c=Store.company();c.name=document.getElementById('cn').value;c.start=document.getElementById('st').value;c.grace=Number(document.getElementById('gr').value);c.quota=Number(document.getElementById('q').value);Store.setCompany(c);alert('Saved')}
-</script>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Settings · HCM Lite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+        <div>
+          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
+          <p style="color:var(--muted);font-size:13px">Settings</p>
+        </div>
+      </div>
+      <button class="btn secondary" onclick="logout()">Sign out</button>
+    </header>
+    <nav class="nav">
+      <a href="admin.html">Dashboard</a>
+      <a href="employees.html">Employees</a>
+      <a href="leaves.html">Leaves</a>
+      <a href="payslip.html">Payslips</a>
+      <a class="active" href="settings.html">Settings</a>
+    </nav>
+    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
+      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Configuration</span>
+      <h1 style="margin:0">Company settings</h1>
+      <p style="color:var(--text-secondary);max-width:640px">Update your organization details and policies.</p>
+    </section>
+    <div class="card" style="max-width:680px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+        <div>
+          <h3 style="margin-bottom:6px">General</h3>
+          <p style="color:var(--muted)">Company information</p>
+        </div>
+        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>
+      </div>
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <div>
+          <label class="label">Company name</label>
+          <input class="input" id="cn">
+        </div>
+        <div>
+          <label class="label">Office start time</label>
+          <input class="input" id="st" type="time">
+        </div>
+        <div>
+          <label class="label">Grace minutes</label>
+          <input class="input" id="gr" type="number">
+        </div>
+        <div>
+          <label class="label">Yearly leave quota</label>
+          <input class="input" id="q" type="number">
+        </div>
+      </div>
+      <button class="btn" style="margin-top:18px" onclick="save()">Save changes</button>
+    </div>
+  </div>
+  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+  <script>
+    requireRole('admin');mountChat(currentUser());
+    const c=Store.company()||{};document.getElementById('cn').value=c.name||'';document.getElementById('st').value=c.start||'';document.getElementById('gr').value=c.grace||'';document.getElementById('q').value=c.quota||'';
+    function save(){const comp=Store.company()||{};comp.name=document.getElementById('cn').value;comp.start=document.getElementById('st').value;comp.grace=Number(document.getElementById('gr').value);comp.quota=Number(document.getElementById('q').value);Store.setCompany(comp);alert('Saved')}
+  </script>
+</body>
+</html>
 `
