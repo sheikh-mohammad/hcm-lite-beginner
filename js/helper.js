@@ -24,11 +24,17 @@ function helperAnswer(q,user){
 window.helperAnswer=helperAnswer;
 function mountChat(user){
   const div=document.createElement('div');div.className='chat';
-  div.innerHTML='<header>Smart Helper</header><div class="chat body" id="chatbody"></div><input id="chatin" placeholder="Ask...">';
+  div.innerHTML='<header>Smart Helper</header><div class="body" id="chatbody"></div><input id="chatin" placeholder="Ask a question about attendance, leave, or employees...">';
   document.body.appendChild(div);
   document.getElementById('chatin').addEventListener('keydown',e=>{
-    if(e.key==='Enter'){const q=e.target.value;e.target.value='';const body=document.getElementById('chatbody');
-    body.innerHTML+=`<div class="msg user">${q}</div>`;body.innerHTML+=`<div class="msg">${helperAnswer(q,user)}</div>`;body.scrollTop=body.scrollHeight;}
+    if(e.key==='Enter'){
+      const q=e.target.value.trim(); if(!q) return;
+      e.target.value='';
+      const body=document.getElementById('chatbody');
+      body.innerHTML+=`<div class="msg user">${q}</div>`;
+      body.innerHTML+=`<div class="msg">${helperAnswer(q,user)}</div>`;
+      body.scrollTop=body.scrollHeight;
+    }
   });
 }
 window.mountChat=mountChat;

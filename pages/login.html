@@ -2,64 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign in · HCM Lite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-  <div class="container" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center">
-    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(24px,7vw,48px)">
-      <a href="../index.html" style="display:flex;align-items:center;gap:10px">
-        <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle,var(--accent),var(--accent-2));box-shadow:0 0 0 9px rgba(56,189,248,.1)"></div>
-        <span style="font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--muted)">HCM Lite</span>
+  <div class="container auth-layout">
+    <header class="site-header">
+      <a class="brand" href="../index.html" aria-label="HCM Lite home">
+        <span class="brand-mark">H</span>
+        <span>HCM Lite</span>
       </a>
       <a class="btn secondary" href="../index.html">Back to home</a>
     </header>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(18px,6vw,36px);align-items:center">
-      <div>
-        <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:11px;color:var(--muted)">Access</span>
-        <h1 style="margin-top:12px">Sign in to your workspace</h1>
-        <p style="color:var(--text-secondary);max-width:420px">Manage your team with a clean, focused HR platform. Create your company on first run or sign in.</p>
-      </div>
-      <div class="card" style="max-width:440px;width:100%;justify-self:end">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+
+    <main class="auth-main">
+      <section class="auth-copy" aria-labelledby="auth-title">
+        <span class="eyebrow">Workspace access</span>
+        <h1 id="auth-title">Sign in to your HR workspace</h1>
+        <p>Manage attendance, leave, employees, and payslips in a clean, organized environment. If this is your first time, create your company and admin account to get started.</p>
+        <p class="auth-note">Secure access for admins and employees.</p>
+      </section>
+
+      <section class="card auth-card" aria-label="Account access">
+        <div class="card-header">
           <div>
-            <h3 style="margin-bottom:4px">Account access</h3>
-            <p style="color:var(--muted);font-size:14px">Secure entry to your HR space</p>
+            <h2>Account access</h2>
+            <p>Use your credentials to continue.</p>
           </div>
-          <div style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2))"></div>
         </div>
+
         <div id="setup" style="display:none">
-          <label class="label">Company name</label>
-          <input class="input" id="cname" placeholder="e.g. Atlas Studio">
-          <label class="label">Admin full name</label>
-          <input class="input" id="aname" placeholder="Full name">
-          <label class="label">Admin email</label>
-          <input class="input" id="aemail" placeholder="you@company.com">
-          <label class="label">Admin password</label>
-          <input class="input" id="apw" type="password" placeholder="Create a password">
-          <button class="btn" style="margin-top:18px;width:100%;justify-content:center" onclick="doSetup()">Create company</button>
+          <label class="label" for="cname">Company name</label>
+          <input class="input" id="cname" placeholder="e.g. Atlas Studio" autocomplete="organization">
+
+          <label class="label" for="aname">Admin full name</label>
+          <input class="input" id="aname" placeholder="Full name" autocomplete="name">
+
+          <label class="label" for="aemail">Admin email</label>
+          <input class="input" id="aemail" type="email" placeholder="you@company.com" autocomplete="email">
+
+          <label class="label" for="apw">Admin password</label>
+          <input class="input" id="apw" type="password" placeholder="Create a password" autocomplete="new-password">
+
+          <div class="form-actions">
+            <button class="btn w-full" onclick="doSetup()">Create company</button>
+          </div>
         </div>
+
         <div id="login">
-          <label class="label">Email</label>
-          <input class="input" id="lemail" placeholder="you@company.com">
-          <label class="label">Password</label>
-          <input class="input" id="lpw" type="password" placeholder="Enter your password">
-          <button class="btn" style="margin-top:18px;width:100%;justify-content:center" onclick="doLogin()">Sign in</button>
-          <div class="error" id="lerr"></div>
+          <label class="label" for="lemail">Email</label>
+          <input class="input" id="lemail" type="email" placeholder="you@company.com" autocomplete="email">
+
+          <label class="label" for="lpw">Password</label>
+          <input class="input" id="lpw" type="password" placeholder="Enter your password" autocomplete="current-password">
+
+          <div class="form-actions">
+            <button class="btn w-full" onclick="doLogin()">Sign in</button>
+          </div>
+          <div class="error" id="lerr" role="status" aria-live="polite"></div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   </div>
-  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/employees.js"></script>
+  <script src="../js/attendance.js"></script>
+  <script src="../js/leave.js"></script>
+  <script src="../js/helper.js"></script>
   <script>
-    if(!Store.company()){document.getElementById('setup').style.display='block';document.getElementById('login').style.display='none'}
-    function doSetup(){if(!document.getElementById('cname').value||!document.getElementById('aname').value||!document.getElementById('aemail').value||!document.getElementById('apw').value){alert('Fill all fields');return}setupCompany(document.getElementById('cname').value,document.getElementById('aname').value,document.getElementById('aemail').value,document.getElementById('apw').value);location.reload()}
-    function doLogin(){if(!document.getElementById('lemail').value||!document.getElementById('lpw').value){document.getElementById('lerr').textContent='Enter email and password';return}if(login(document.getElementById('lemail').value,document.getElementById('lpw').value)){const u=currentUser();location.href=u.role==='admin'?'admin.html':'employee.html'}else document.getElementById('lerr').textContent='Invalid credentials'}
+    if (!Store.company()) {
+      document.getElementById('setup').style.display = 'block';
+      document.getElementById('login').style.display = 'none';
+    }
+    function doSetup() {
+      if (!document.getElementById('cname').value || !document.getElementById('aname').value || !document.getElementById('aemail').value || !document.getElementById('apw').value) {
+        alert('Fill all fields');
+        return;
+      }
+      setupCompany(document.getElementById('cname').value, document.getElementById('aname').value, document.getElementById('aemail').value, document.getElementById('apw').value);
+      location.reload();
+    }
+    function doLogin() {
+      if (!document.getElementById('lemail').value || !document.getElementById('lpw').value) {
+        document.getElementById('lerr').textContent = 'Enter email and password';
+        return;
+      }
+      if (login(document.getElementById('lemail').value, document.getElementById('lpw').value)) {
+        const u = currentUser();
+        location.href = u.role === 'admin' ? 'admin.html' : 'employee.html';
+      } else {
+        document.getElementById('lerr').textContent = 'Invalid credentials';
+      }
+    }
   </script>
 </body>
 </html>
-`

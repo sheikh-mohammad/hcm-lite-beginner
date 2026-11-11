@@ -2,72 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Settings · HCM Lite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz:wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <div class="container">
-    <header style="display:flex;align-items:center;justify-content:space-between;margin-bottom:clamp(20px,6vw,36px)">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div style="width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,var(--accent-2),var(--accent));box-shadow:0 0 0 10px rgba(124,59,255,.08)"></div>
+    <header class="page-header">
+      <div class="row">
+        <span class="brand-mark" aria-hidden="true">H</span>
         <div>
-          <span style="font-weight:600;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--muted)">HCM Lite</span>
-          <p style="color:var(--muted);font-size:13px">Settings</p>
+          <div class="brand" style="font-size:1rem;">HCM Lite</div>
+          <p class="brand-sub">Configuration</p>
         </div>
       </div>
       <button class="btn secondary" onclick="logout()">Sign out</button>
     </header>
-    <nav class="nav">
+
+    <nav class="nav" aria-label="Admin navigation">
       <a href="admin.html">Dashboard</a>
       <a href="employees.html">Employees</a>
       <a href="leaves.html">Leaves</a>
       <a href="payslip.html">Payslips</a>
       <a class="active" href="settings.html">Settings</a>
     </nav>
-    <section style="display:flex;flex-direction:column;gap:10px;margin-bottom:clamp(24px,6vw,36px)">
-      <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:12px;color:var(--muted)">Configuration</span>
-      <h1 style="margin:0">Company settings</h1>
-      <p style="color:var(--text-secondary);max-width:640px">Update your organization details and policies.</p>
-    </section>
-    <div class="card" style="max-width:680px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-        <div>
-          <h3 style="margin-bottom:6px">General</h3>
-          <p style="color:var(--muted)">Company information</p>
+
+    <main>
+      <section class="page-intro">
+        <span class="eyebrow">Company settings</span>
+        <h1>Settings</h1>
+        <p>Manage company details, attendance rules, and leave policy for your organization.</p>
+      </section>
+
+      <section class="card" style="max-width: 760px;">
+        <div class="card-header">
+          <div>
+            <h2>General configuration</h2>
+            <p>Update your organization information and defaults.</p>
+          </div>
         </div>
-        <div style="width:8px;height:8px;border-radius:50%;background:var(--accent)"></div>
-      </div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-        <div>
-          <label class="label">Company name</label>
-          <input class="input" id="cn">
+
+        <div class="form-grid">
+          <div>
+            <label class="label" for="cn">Company name</label>
+            <input class="input" id="cn" placeholder="Company name">
+          </div>
+          <div>
+            <label class="label" for="st">Office start time</label>
+            <input class="input" id="st" type="time">
+          </div>
+          <div>
+            <label class="label" for="gr">Grace period (minutes)</label>
+            <input class="input" id="gr" type="number" min="0" placeholder="e.g. 15">
+          </div>
+          <div>
+            <label class="label" for="q">Yearly leave quota (days)</label>
+            <input class="input" id="q" type="number" min="0" placeholder="e.g. 12">
+          </div>
         </div>
-        <div>
-          <label class="label">Office start time</label>
-          <input class="input" id="st" type="time">
+
+        <div class="form-actions row">
+          <button class="btn" onclick="save()">Save changes</button>
+          <span class="success-msg" id="saveMsg" role="status" aria-live="polite"></span>
         </div>
-        <div>
-          <label class="label">Grace minutes</label>
-          <input class="input" id="gr" type="number">
-        </div>
-        <div>
-          <label class="label">Yearly leave quota</label>
-          <input class="input" id="q" type="number">
-        </div>
-      </div>
-      <button class="btn" style="margin-top:18px" onclick="save()">Save changes</button>
-    </div>
+      </section>
+    </main>
   </div>
-  <script src="../js/storage.js"></script><script src="../js/auth.js"></script><script src="../js/employees.js"></script><script src="../js/attendance.js"></script><script src="../js/leave.js"></script><script src="../js/helper.js"></script>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/employees.js"></script>
+  <script src="../js/attendance.js"></script>
+  <script src="../js/leave.js"></script>
+  <script src="../js/helper.js"></script>
   <script>
-    requireRole('admin');mountChat(currentUser());
-    const c=Store.company()||{};document.getElementById('cn').value=c.name||'';document.getElementById('st').value=c.start||'';document.getElementById('gr').value=c.grace||'';document.getElementById('q').value=c.quota||'';
-    function save(){const comp=Store.company()||{};comp.name=document.getElementById('cn').value;comp.start=document.getElementById('st').value;comp.grace=Number(document.getElementById('gr').value);comp.quota=Number(document.getElementById('q').value);Store.setCompany(comp);alert('Saved')}
+    requireRole('admin');
+    mountChat(currentUser());
+
+    const c = Store.company() || {};
+    document.getElementById('cn').value = c.name || '';
+    document.getElementById('st').value = c.start || '';
+    document.getElementById('gr').value = c.grace ?? '';
+    document.getElementById('q').value = c.quota ?? '';
+
+    function save() {
+      const comp = Store.company() || {};
+      comp.name = document.getElementById('cn').value;
+      comp.start = document.getElementById('st').value;
+      comp.grace = Number(document.getElementById('gr').value);
+      comp.quota = Number(document.getElementById('q').value);
+      Store.setCompany(comp);
+      const msg = document.getElementById('saveMsg');
+      msg.textContent = 'Settings saved successfully.';
+      setTimeout(() => { msg.textContent = ''; }, 2500);
+    }
   </script>
 </body>
 </html>
-`

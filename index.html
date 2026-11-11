@@ -2,131 +2,151 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>HCM Lite — Human Capital Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HCM Lite — HR for small teams</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="container">
-    <header style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 0 24px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:9px;height:9px;border-radius:50%;background:radial-gradient(circle,var(--accent),var(--accent-2));box-shadow:0 0 0 9px rgba(56,189,248,.1)"></div>
-        <span style="font-weight:600;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:var(--muted)">HCM Lite</span>
-      </div>
-      <div class="row" style="gap:8px">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="HCM Lite home">
+        <span class="brand-mark">H</span>
+        <span>HCM Lite</span>
+      </a>
+      <div class="row">
         <a class="btn secondary" href="pages/login.html">Sign in</a>
-        <a class="btn" href="pages/login.html">Get started</a>
+        <a class="btn" href="pages/login.html">Open app</a>
       </div>
     </header>
 
-    <section class="hero">
-      <span class="eyebrow">People operations · End-to-end</span>
-      <h1>Modern HR, simplified</h1>
-      <p>Manage attendance, leave, employees, payslips and get instant answers with an AI helper. Clean, fast and built for teams.</p>
-      <div class="row" style="justify-content:center;margin-top:8px">
-        <a class="btn" href="pages/login.html">Launch platform</a>
-        <a class="btn secondary" href="#features">View features</a>
-      </div>
-    </section>
-
-    <section style="margin-top:clamp(30px,8vw,70px)">
-      <div class="section-header">
-        <span class="eyebrow">Overview</span>
-        <h2 style="margin:0">Everything you need in one place</h2>
-        <p>Role-based access for admins and employees with a focused workflow for each action.</p>
-      </div>
-      <div class="grid feature-grid">
-        <article class="card">
-          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--muted)">Admin</span>
-          <h3 style="margin-top:12px">Command Center</h3>
-          <p style="color:var(--text-secondary);margin-top:8px">Manage roster, track attendance, approve leaves, post announcements and generate payslips.</p>
-          <ul style="margin-top:16px;display:flex;flex-direction:column;gap:8px;list-style:none;color:var(--text-secondary);font-size:14px">
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent)">•</span> Employee management</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent)">•</span> Attendance oversight</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent)">•</span> Leave approvals</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent)">•</span> Payslip generation</li>
-          </ul>
-        </article>
-        <article class="card">
-          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--muted)">Employee</span>
-          <h3 style="margin-top:12px">Personal Space</h3>
-          <p style="color:var(--text-secondary);margin-top:8px">Check in/out, apply for leave, view attendance history and access payslips instantly.</p>
-          <ul style="margin-top:16px;display:flex;flex-direction:column;gap:8px;list-style:none;color:var(--text-secondary);font-size:14px">
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Quick check-in/out</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Leave requests</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Attendance history</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-2)">•</span> Payslip access</li>
-          </ul>
-        </article>
-        <article class="card">
-          <span class="eyebrow" style="letter-spacing:.18em;text-transform:uppercase;font-size:11px;color:var(--muted)">Intelligence</span>
-          <h3 style="margin-top:12px">Smart Helper</h3>
-          <p style="color:var(--text-secondary);margin-top:8px">Ask questions in plain English and get answers from real app data with role awareness.</p>
-          <ul style="margin-top:16px;display:flex;flex-direction:column;gap:8px;list-style:none;color:var(--text-secondary);font-size:14px">
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Natural language</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Real-time data</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Role-aware answers</li>
-            <li style="display:flex;gap:8px;align-items:flex-start"><span style="color:var(--accent-3)">•</span> Contextual help</li>
-          </ul>
-        </article>
-      </div>
-    </section>
-
-    <section id="features" style="margin-top:clamp(40px,10vw,80px)">
-      <div class="section-header">
-        <span class="eyebrow">Features</span>
-        <h2 style="margin:0">Built for daily HR work</h2>
-        <p>Focused flows with validation and clear states across all pages.</p>
-      </div>
-      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-        <article class="card metric-card">
-          <span class="label">Attendance</span>
-          <p class="value">Check-in/out</p>
-          <p style="color:var(--muted);margin-top:6px;font-size:14px">Time tracking with status updates</p>
-        </article>
-        <article class="card metric-card">
-          <span class="label">Leave</span>
-          <p class="value">Apply & Approve</p>
-          <p style="color:var(--muted);margin-top:6px;font-size:14px">Request workflow with approval states</p>
-        </article>
-        <article class="card metric-card">
-          <span class="label">Payroll</span>
-          <p class="value">Payslips</p>
-          <p style="color:var(--muted);margin-top:6px;font-size:14px">View and generate with calculations</p>
-        </article>
-        <article class="card metric-card">
-          <span class="label">Team</span>
-          <p class="value">Employees</p>
-          <p style="color:var(--muted);margin-top:6px;font-size:14px">Add, search and manage roster</p>
-        </article>
-      </div>
-    </section>
-
-    <section style="margin-top:clamp(40px,10vw,80px)">
-      <div class="cta-strip">
-        <div>
-          <span class="eyebrow" style="letter-spacing:.4em;text-transform:uppercase;font-size:11px;color:var(--muted)">Ready</span>
-          <h2 style="margin-top:10px">Start managing your team today</h2>
-          <p style="margin-top:6px">Set up your company and get started in minutes.</p>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow">Attendance, leave, payroll — in one place</p>
+          <h1 id="hero-title">HR records your team can actually keep up with</h1>
+          <p>HCM Lite is a straightforward workspace for small teams: track daily attendance, review leave requests, manage employee records, and check monthly payslips without a heavy setup.</p>
+          <div class="row">
+            <a class="btn" href="pages/login.html">Open workspace</a>
+            <a class="btn secondary" href="#features">See what’s included</a>
+          </div>
         </div>
-        <div class="row">
-          <a class="btn" href="pages/login.html">Launch HCM Lite</a>
-          <a class="btn secondary" href="pages/login.html">Sign in</a>
+        <div class="hero-panel" aria-label="What’s inside">
+          <div class="panel-row">
+            <span class="panel-label">Attendance</span>
+            <span class="panel-value">Daily check-in / out</span>
+          </div>
+          <div class="panel-row">
+            <span class="panel-label">Leave</span>
+            <span class="panel-value">Requests & approvals</span>
+          </div>
+          <div class="panel-row">
+            <span class="panel-label">Employees</span>
+            <span class="panel-value">Roster & departments</span>
+          </div>
+          <div class="panel-row">
+            <span class="panel-label">Payslips</span>
+            <span class="panel-value">Monthly breakdown</span>
+          </div>
+          <div class="panel-row">
+            <span class="panel-label">Helper</span>
+            <span class="panel-value">Questions answered from records</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer style="margin-top:clamp(40px,10vw,80px);padding:24px 0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--border)">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2))"></div>
-        <span style="color:var(--muted);font-size:14px">© 2026 HCM Lite</span>
+      <section class="section" aria-labelledby="roles-title">
+        <div class="section-header">
+          <h2 id="roles-title">One system, two views</h2>
+          <p>Admins handle setup and approvals. Employees handle their own day-to-day tasks.</p>
+        </div>
+        <div class="grid feature-grid">
+          <article class="card feature-card">
+            <p class="eyebrow">For admins</p>
+            <h3>Run the basics</h3>
+            <p>Keep the roster current and respond to what needs attention.</p>
+            <ul class="feature-list">
+              <li><span>Add and remove employees</span></li>
+              <li><span>See today’s attendance at a glance</span></li>
+              <li><span>Approve or reject leave requests</span></li>
+              <li><span>Post announcements and adjust settings</span></li>
+            </ul>
+          </article>
+          <article class="card feature-card">
+            <p class="eyebrow">For employees</p>
+            <h3>Handle your own records</h3>
+            <p>Check in, request time off, and review history without back-and-forth.</p>
+            <ul class="feature-list">
+              <li><span>Check in and check out</span></li>
+              <li><span>Submit leave requests</span></li>
+              <li><span>View attendance and leave history</span></li>
+              <li><span>Open your payslip</span></li>
+            </ul>
+          </article>
+          <article class="card feature-card">
+            <p class="eyebrow">Built-in helper</p>
+            <h3>Quick answers</h3>
+            <p>Ask plain questions like “how many on leave today?” and get answers from current data.</p>
+            <ul class="feature-list">
+              <li><span>Attendance and leave summaries</span></li>
+              <li><span>Role-aware responses</span></li>
+              <li><span>Available inside the app</span></li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="features" class="section" aria-labelledby="features-title">
+        <div class="section-header">
+          <h2 id="features-title">What you can do</h2>
+          <p>Focused pages for the work that comes up every week.</p>
+        </div>
+        <div class="grid metrics-grid">
+          <article class="card metric-card">
+            <p class="label">Attendance</p>
+            <p class="value">Daily status</p>
+            <p>Record presence, late arrivals, and check-out times.</p>
+          </article>
+          <article class="card metric-card">
+            <p class="label">Leave</p>
+            <p class="value">Request & review</p>
+            <p>Track requests with pending, approved, or rejected states.</p>
+          </article>
+          <article class="card metric-card">
+            <p class="label">Payroll</p>
+            <p class="value">Payslip view</p>
+            <p>See salary, deductions, and net payable for the month.</p>
+          </article>
+          <article class="card metric-card">
+            <p class="label">People</p>
+            <p class="value">Employee roster</p>
+            <p>Search by name or department and manage records.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="cta-title">
+        <div class="cta-strip">
+          <div>
+            <h2 id="cta-title">Set up your company in a few steps</h2>
+            <p>First-time users create an admin account and company profile. Everyone else can sign in directly.</p>
+          </div>
+          <div class="row">
+            <a class="btn" href="pages/login.html">Go to sign in</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="row">
+        <span class="brand-mark" aria-hidden="true">H</span>
+        <span>HCM Lite</span>
       </div>
-      <span style="color:var(--muted);font-size:14px">Built for modern teams</span>
+      <span>Simple HR records for small teams.</span>
     </footer>
   </div>
 </body>
 </html>
-`
