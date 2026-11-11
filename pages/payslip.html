@@ -6,7 +6,7 @@
   <title>Payslip · HCM Lite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -29,7 +29,6 @@
 
     <main>
       <section class="page-intro">
-        <span class="eyebrow">Payroll</span>
         <h1>Payslip</h1>
         <p>Monthly compensation summary including salary, attendance deductions, and net payable amount.</p>
       </section>
@@ -80,31 +79,31 @@
         </div>
         <div style="text-align:right;">
           <p class="muted text-sm">Employee</p>
-          <p style="font-weight:700; color:var(--color-text);">${e.name || '—'}</p>
+          <p style="font-weight:700; color:var(--text);">${e.name || '—'}</p>
           <p class="muted text-sm">${e.department || '—'} ${e.email ? '· ' + e.email : ''}</p>
         </div>
       </div>
 
       <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 20px;">
-        <div class="card" style="padding:16px; box-shadow:none; background:var(--color-surface-alt);">
+        <div class="card" style="padding:16px; box-shadow:none; background:var(--surface-alt);">
           <p class="muted text-sm" style="font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Monthly salary</p>
-          <p style="font-size:1.5rem; font-weight:700; color:var(--color-text); margin-top:4px;">${salary.toLocaleString()}</p>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--text); margin-top:4px;">${salary.toLocaleString()}</p>
         </div>
-        <div class="card" style="padding:16px; box-shadow:none; background:var(--color-surface-alt);">
+        <div class="card" style="padding:16px; box-shadow:none; background:var(--surface-alt);">
           <p class="muted text-sm" style="font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Working days</p>
-          <p style="font-size:1.5rem; font-weight:700; color:var(--color-text); margin-top:4px;">${wd}</p>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--text); margin-top:4px;">${wd}</p>
         </div>
-        <div class="card" style="padding:16px; box-shadow:none; background:var(--color-surface-alt);">
+        <div class="card" style="padding:16px; box-shadow:none; background:var(--surface-alt);">
           <p class="muted text-sm" style="font-weight:600; text-transform:uppercase; letter-spacing:.04em;">Per day</p>
-          <p style="font-size:1.5rem; font-weight:700; color:var(--color-text); margin-top:4px;">${perDay.toFixed(2)}</p>
+          <p style="font-size:1.5rem; font-weight:700; color:var(--text); margin-top:4px;">${perDay.toFixed(2)}</p>
         </div>
       </div>
 
-      <div style="border:1px solid var(--color-border); border-radius: var(--radius-md); overflow:hidden;">
-        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-border);"><span class="muted">Absent days</span><strong style="color:var(--color-text);">${absent}</strong></div>
-        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-border);"><span class="muted">Half days</span><strong style="color:var(--color-text);">${half}</strong></div>
-        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-border);"><span class="muted">Total deduction</span><strong style="color:var(--color-danger);">${ded.toFixed(2)}</strong></div>
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px; background:var(--color-surface-alt);"><span style="font-weight:700; color:var(--color-text);">Net payable</span><span style="font-size:1.6rem; font-weight:700; color:var(--color-accent);">${net.toFixed(2)}</span></div>
+      <div style="border:1px solid var(--border); border-radius: var(--radius-sm); overflow:hidden;">
+        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--border);"><span class="muted">Absent days</span><strong style="color:var(--text);">${absent}</strong></div>
+        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--border);"><span class="muted">Half days</span><strong style="color:var(--text);">${half}</strong></div>
+        <div style="display:flex; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--border);"><span class="muted">Total deduction</span><strong style="color:var(--danger);">${ded.toFixed(2)}</strong></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:16px; background:var(--surface-alt);"><span style="font-weight:700; color:var(--text);">Net payable</span><span style="font-size:1.6rem; font-weight:700; color:var(--accent);">${net.toFixed(2)}</span></div>
       </div>`;
   </script>
 </body>

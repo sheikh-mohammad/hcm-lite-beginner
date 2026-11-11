@@ -6,7 +6,7 @@
   <title>Admin dashboard · HCM Lite</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@500;600;700&family=Wix+Madefor+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -32,7 +32,6 @@
 
     <main>
       <section class="page-intro">
-        <span class="eyebrow">Overview</span>
         <h1>Admin dashboard</h1>
         <p>Monitor your workforce, track today's attendance, and share updates with your team.</p>
       </section>
@@ -114,7 +113,7 @@
           el.innerHTML = '<p class="muted">No announcements yet. Post an update to keep your team informed.</p>';
           return;
         }
-        el.innerHTML = list.map(x => `<div class="card" style="padding:14px 16px; background: var(--color-surface-alt); box-shadow:none;"><p style="color:var(--color-text-secondary); margin:0;">${x}</p></div>`).join('');
+        el.innerHTML = list.map(x => `<div class="card" style="padding:14px 16px; background: var(--surface-alt); box-shadow:none;"><p style="margin:0; color: var(--text-muted);">${x}</p></div>`).join('');
       }
       renderAnn();
     }
